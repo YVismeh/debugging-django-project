@@ -196,12 +196,17 @@
                 <p>Your email address will not be published. Required fields are marked * </p>
                 <div class="row">
                   <div class="col form-group">
-                    <input name="name" type="text" class="form-control" placeholder="Your Name">
+                    <input type="hidden" name="blogs" class="form-control" placeholder="Your Name" value={{object.id}}>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col form-group">
-                    <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
+                    <input type="name" name="name" class="form-control" placeholder="Your Name">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col form-group">
+                    <input type="taxt" textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
                   </div>
                 </div>
 
@@ -240,8 +245,8 @@
             <div class="search-widget widget-item">
 
               <h3 class="widget-title">Search</h3>
-              <form action="">
-                <input type="text">
+              <form action={% url "blogs:blogs" %}>
+                <input type="text" name="search">
                 <button type="submit" title="Search"><i class="bi bi-search"></i></button>
               </form>
 

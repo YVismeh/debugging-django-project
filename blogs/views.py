@@ -23,8 +23,12 @@ class BlogView(ListView):
             blogs = self.model.objects.filter(category__title=self.kwargs.get("category"))
         elif self.kwargs.get("tag"):
             blogs = self.model.objects.filter(tag__title=self.kwargs.get("tag"))
+        elif self.request.GET.get('search') is not None:
+            search = self.request.GET.get('search')
+            blogs = Blog.objects.filter(desc1__contains = search)
         else:
             blogs = self.model.objects.filter(status=True)
+            
         return blogs
     
     def get_context_data(self, **kwargs):
@@ -37,15 +41,12 @@ class BlogView(ListView):
         
         return context
 
-
-def blog_details(request, id):
-    return render(request, 'blog/blog-details.html')
-
 from django.views.generic import DetailView
 
 class BlogDetailsView(DetailView):
     model = Blog
     template_name = 'Blog/blog-details.html'
+    context_object_name = "blogs"
 
     def get_context_data(self, **kwargs):
         id = self.kwargs["pk"]
@@ -64,6 +65,7 @@ class BlogDetailsView(DetailView):
                 blog = get_object_or_404(Blog, id=id)
                 comment = form.save(commit=False)
                 comment.blog = blog
+                comment.name = request.user
                 comment.save()
                 messages.add_message(self.request, messages.SUCCESS, "successfully sent")
                 return redirect(self.request.path_info)
