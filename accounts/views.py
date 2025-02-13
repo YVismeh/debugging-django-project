@@ -24,7 +24,7 @@ def login_user(request):
         return render(request,'registrations/login.html')
 
 
-        
+    #[]
             
 
 def logout_user(request):
