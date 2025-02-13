@@ -42,32 +42,11 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Comments',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('message', models.TextField()),
-                ('post', models.CharField(max_length=50)),
-                ('status', models.BooleanField(default=False)),
-                ('blog', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blogs.blog')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Tag',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=50)),
                 ('status', models.BooleanField(default=False)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Reply',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('message', models.TextField()),
-                ('status', models.BooleanField(default=False)),
-                ('comment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blogs.comments')),
             ],
         ),
         migrations.AddField(

@@ -4,9 +4,9 @@ from .models import Comments,Reply
 class CommentsForm(forms.ModelForm):
     class Meta:
         model = Comments
-        fields = ['blog','name','message']
+        fields = ['blog','email','message']
         
 class ReplyForm(forms.ModelForm):
     class Meta:
         model = Reply
-        fields = ['comment','name','message']
+        fields = ['comment','email','message']

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
-from .models import Blog, Comments
+from .models import Blog, Comments,Reply
 from django.core.paginator import Paginator
-from .forms import CommentsForm
+from .forms import CommentsForm,ReplyForm
 from django.contrib import messages
 
 
@@ -54,6 +54,7 @@ class BlogDetailsView(DetailView):
         context = super().get_context_data(**kwargs)
         context["form"] = CommentsForm()
         context["comments"] = Comments.objects.filter(status=True, blog=blog.id)
+        context["reply"] = Reply.objects.filter(status=True)
         context["blogs"] = Blog.objects.filter(status=True).order_by("-created_at")[:5]
         return context
     
@@ -74,3 +75,25 @@ class BlogDetailsView(DetailView):
                 return redirect(self.request.path_info)
         else:
             return redirect("accounts:login")
+        
+        
+def reply_comment(request,id):
+    comments = get_object_or_404(Comments,id = id)
+    if request.method == 'GET':
+        form = ReplyForm()
+        context = {
+            'comments':comments,
+            'form':form,
+        }
+        return render(request,'blog/reply_comment.html',context=context)
+    elif request.method == 'POST':
+        if request.user.is_authenticated:
+            form = ReplyForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('blogs:blogs')
+            else:
+                messages.add_message(request,messages.ERROR,'please try again')
+                return redirect(request.path_info)
+        else:
+            return redirect('accounts:login')

@@ -45,21 +45,23 @@ class Blog(models.Model):
 
 class Comments(models.Model):
     blog = models.ForeignKey(Blog,on_delete=models.CASCADE)
-    name = models.ForeignKey(User,on_delete=models.CASCADE)
+    email = models.ForeignKey(User,on_delete=models.CASCADE)
     message = models.TextField()
     status = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.blog.title
     
 class Reply(models.Model):
     comment = models.ForeignKey(Comments,on_delete=models.CASCADE)
-    name = models.ForeignKey(User,on_delete=models.CASCADE)
+    email = models.ForeignKey(User,on_delete=models.CASCADE)
     message = models.TextField()
     status = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.comment.name
+        return self.comment.email.email
 
 
 
